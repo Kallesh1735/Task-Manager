@@ -1,0 +1,628 @@
+ /* --------------------------------------
+   Global Theme (Glassmorphism + Blur)
+---------------------------------------*/
+:root {
+  --bg-1: #0f1226;
+  --bg-2: #141936;
+
+  /* cards (glass) */
+  --card: rgba(255,255,255,0.10);
+  --card-strong: rgba(255,255,255,0.16);
+
+  /* text & muted */
+  --text: #e8ebff;
+  --muted: #aab3ff;
+
+  /* accents */
+  --accent: #6c9bff;
+  --accent-2: #8bffdf;
+
+  /* status */
+  --danger: #ff6b6b;
+  --ok: #4caf50;
+
+  /* shape & effects */
+  --radius: 16px;
+  --shadow: 0 10px 30px rgba(0,0,0,0.35);
+  --blur: blur(14px);
+  --card-border: rgba(255,255,255,0.18);
+}
+
+/* Base layout */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+
+body {
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: radial-gradient(1100px 600px at 10% -10%, #2a2f68 0%, transparent 60%),
+              radial-gradient(900px 500px at 90% 10%, #314a9a 0%, transparent 60%),
+              linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  overflow-y: auto;
+}
+
+/* background glow blobs */
+body::before, body::after {
+  content: "";
+  position: fixed;
+  width: 480px;
+  height: 480px;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: -1;
+}
+body::before { top: -120px; left: -80px; background: #5aa2ff; }
+body::after { bottom: -120px; right: -80px; background: #67ffd8; }
+
+/* App layout */
+.app {
+  max-width: 860px;
+  margin: 48px auto 96px;
+  padding: 24px;
+}
+
+/* Glass card */
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+}
+
+/* Buttons */
+.btn {
+  cursor: pointer;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  color: #001014;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: 0 6px 18px rgba(108,155,255,.18);
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); box-shadow: 0 3px 12px rgba(108,155,255,.12); }
+
+.btn-danger {
+  background: linear-gradient(90deg, #ff7b7b, #ffc2c2);
+  box-shadow: 0 6px 18px rgba(255,123,123,.12);
+}
+
+/* --------------------------------------
+   Chunk 2 — Form, Toolbar, Task List, Badges
+---------------------------------------*/
+
+/* Headline / header */
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.header-left { text-align: left; }
+h1 {
+  margin: 0 0 6px;
+  font-weight: 800;
+  letter-spacing: .3px;
+  text-shadow: 0 2px 14px rgba(0,0,0,.35);
+  color: var(--text);
+  font-size: 36px;
+}
+.app > p {
+  margin: 0 0 24px;
+  color: var(--muted);
+}
+
+/* Task form */
+.task-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  padding: 16px;
+}
+.task-form input[type="text"] {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: var(--card-strong);
+  color: var(--text);
+  outline: none;
+  transition: border .18s, box-shadow .18s, background .18s;
+  backdrop-filter: var(--blur);
+}
+.task-form input[type="text"]::placeholder { color: rgba(232,235,255,.48); }
+.task-form input[type="text"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(108,155,255,.10);
+}
+
+.task-form select,
+.task-form input[type="date"] {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: var(--card-strong);
+  color: var(--text);
+  outline: none;
+  backdrop-filter: var(--blur);
+}
+
+.task-form-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.toolbar-input {
+  flex: 1 1 260px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: var(--card-strong);
+  color: var(--text);
+  outline: none;
+  backdrop-filter: var(--blur);
+}
+.toolbar-input::placeholder { color: rgba(232,235,255,.48); }
+.toolbar-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(108,155,255,.10); }
+
+.toolbar-select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: var(--card-strong);
+  color: var(--text);
+  min-width: 160px;
+}
+
+/* Results count */
+.results-count {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 8px;
+}
+.results-count .results-number {
+  font-weight: 800;
+  margin-right: 6px;
+  color: var(--accent-2);
+}
+
+/* Task list (rows) */
+.task-list {
+  display: block;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  overflow: visible;
+}
+.task-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  margin: 10px 0;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: var(--blur);
+  transition: transform .12s ease, background .18s ease, border-color .18s ease, box-shadow .12s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  will-change: transform;
+}
+.task-list li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+/* completed */
+.task-list li.done strong { text-decoration: line-through; color: #c7cffb; }
+
+/* meta text */
+.task-list .meta {
+  color: var(--muted);
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+/* actions */
+.actions button { margin-left: 8px; min-width: 96px; }
+
+/* Drag handle styling (small touch target) */
+.task-list .drag-handle {
+  cursor: grab;
+  padding: 6px;
+  border-radius: 8px;
+  user-select: none;
+  opacity: 0.88;
+}
+
+/* Due badges */
+.due-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  margin-left: 6px;
+  vertical-align: middle;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* states */
+.due-badge.none { background: rgba(255,255,255,0.10); color: var(--text); }
+.due-badge.upcoming { background: rgba(139,255,223,0.18); color: #003f34; border-color: rgba(139,255,223,0.36); }
+.due-badge.today { background: rgba(255,229,113,0.22); color: #3f2e00; border-color: rgba(255,229,113,.36); }
+.due-badge.overdue { background: rgba(255,107,107,0.22); color: #3f0000; border-color: rgba(255,107,107,.36); }
+
+/* small responsive tweaks */
+@media (max-width: 640px) {
+  .toolbar-select, .toolbar-input { min-width: 120px; }
+  .task-form { grid-template-columns: 1fr; }
+  .task-form-controls { gap: 8px; }
+}
+/* --------------------------------------
+   Chunk 3 — Skeletons, Stats, Light Theme
+---------------------------------------*/
+
+/* ========== Skeleton placeholders ========== */
+.skeleton-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 12px;
+  padding: 14px;
+  backdrop-filter: blur(6px);
+}
+
+/* shimmer animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-line,
+.skeleton-bar,
+.skeleton-avatar,
+.skeleton-pill,
+.skeleton-bar-fill {
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+  border-radius: 8px;
+}
+
+/* Progress skeleton */
+.skeleton-progress .skeleton-line.short {
+  height: 14px;
+  width: 160px;
+  margin-bottom: 10px;
+}
+.skeleton-progress .skeleton-bar {
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+  position: relative;
+}
+.skeleton-progress .skeleton-bar-fill {
+  width: 35%;
+  height: 100%;
+  border-radius: 999px;
+}
+
+/* Progress (real) — baseline for the animated bar */
+.progress-bar {
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  position: relative;
+}
+
+.progress {
+  height: 100%;
+  width: 0%;                       /* baseline only — Framer Motion writes inline width */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: inset 0 0 10px rgba(255,255,255,.12), 0 6px 16px rgba(108,155,255,.18);
+  transition: none;                /* Framer Motion will animate via inline style — don't conflict */
+  will-change: width;
+}
+
+.progress .progress-text {
+  padding-left: 8px;
+  font-size: 12px;
+  color: #001014;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+/* Ensure only one visible animated progress and no conflicting transitions */
+.progress-bar {
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  position: relative;
+}
+
+.progress {
+  height: 100%;
+  width: 0%; /* baseline; Framer Motion writes inline width */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: inset 0 0 10px rgba(255,255,255,.12), 0 6px 16px rgba(108,155,255,.18);
+  transition: none; /* avoid CSS transitions conflicting with Framer */
+  will-change: width;
+}
+
+.progress .progress-text { padding-left: 8px; font-size: 12px; font-weight:700; color:#001014; }
+
+/* Stats grid so cards align on one row */
+.stats-panel {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+/* Stat card */
+.stat-card {
+  padding: 18px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+}
+.stat-label { color: var(--muted); font-size: 14px; margin-bottom: 6px; }
+.stat-number { font-size: 1.6rem; font-weight:800; color: var(--text); }
+
+
+
+/* List skeleton */
+.skeleton-list { list-style: none; padding: 6px; margin: 0; }
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+}
+.skeleton-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  flex: 0 0 44px;
+}
+.skeleton-content { flex: 1 1 auto; display: flex; flex-direction: column; gap: 8px; }
+.skeleton-line { height: 12px; width: 70%; border-radius: 6px; }
+.skeleton-line.small { width: 36%; height: 10px; }
+.skeleton-actions { flex: 0 0 80px; display: flex; align-items: center; justify-content: flex-end; }
+.skeleton-pill { width: 60px; height: 24px; border-radius: 999px; }
+
+/* ========== Stats panel ========== */
+.stats-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.stat-card {
+  flex: 1 1 200px;
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.18);
+}
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.2);
+}
+
+/* ========== Theme Toggle ========== */
+.theme-toggle {
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--card-strong), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform .1s ease, box-shadow .2s ease;
+}
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(108,155,255,0.18);
+}
+
+/* ========== Light Theme Overrides ========== */
+:root[data-theme="light"] {
+  --bg-1: #eef3fb;
+  --bg-2: #f7fbff;
+  --card: rgba(255,255,255,0.90);
+  --card-strong: rgba(255,255,255,0.95);
+  --text: #0e2340;
+  --muted: #5b6280;
+  --accent: #3866ff;
+  --accent-2: #12c6a4;
+  --danger: #e94b4b;
+  --ok: #1f8e4f;
+  --radius: 14px;
+  --card-border: rgba(10,24,48,0.06);
+  --card-shadow: 0 10px 30px rgba(10,20,40,0.06);
+  --blur: blur(10px);
+}
+
+/* Light background tweaks */
+:root[data-theme="light"] body {
+  background: radial-gradient(900px 420px at 10% 0%, rgba(82,116,255,0.06) 0%, transparent 40%),
+              radial-gradient(700px 380px at 90% 80%, rgba(18,198,164,0.05) 0%, transparent 40%),
+              linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+:root[data-theme="light"] .results-count {
+  color: var(--accent-2);
+  font-weight: 700;
+}
+:root[data-theme="light"] .theme-toggle {
+  border: 1px solid var(--card-border);
+  background: var(--card-strong);
+  color: var(--text);
+}
+
+/* ---------- Layout & spacing refinements (paste at end of Style.css) ---------- */
+
+/* tighten outer app spacing and make cards consistent */
+.app {
+  max-width: 980px;      /* a little wider so cards have room */
+  margin: 48px auto 96px;
+  padding: 28px;         /* slightly larger padding for breathing room */
+}
+
+/* give cards consistent inner padding and spacing */
+.card.section {
+  padding: 18px 20px;
+  margin: 18px 0;        /* consistent vertical spacing between sections */
+}
+
+/* Progress tracker: ensure it has spacing below and the bar doesn't visually collide */
+.progress-tracker {
+  padding: 14px 14px 18px;
+  margin: 0 0 8px 0;     /* small gap below progress area */
+}
+.progress-bar { margin-top: 6px; }
+
+/* Stats panel: responsive flex grid of stat-cards */
+.stats-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+/* Each stat card */
+.stat-card {
+  flex: 1 1 calc(25% - 12px); /* 4 across on wide screens; shrinks responsively */
+  min-width: 180px;           /* don't get too narrow */
+  background: var(--card-strong);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* Labels + numbers inside stat cards */
+.stat-card .stat-label {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.stat-card .stat-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+}
+
+/* In smaller screens stack the stats vertically */
+@media (max-width: 900px) {
+  .stat-card { flex: 1 1 48%; min-width: 44%; }
+}
+@media (max-width: 600px) {
+  .stat-card { flex: 1 1 100%; min-width: 100%; }
+}
+
+/* Toolbar spacing — keep controls aligned and even height */
+.toolbar {
+  gap: 12px;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+.toolbar-input { flex: 1 1 320px; min-width: 160px; }
+.toolbar-select { min-width: 140px; }
+
+/* Task form tuning */
+.task-form {
+  display:flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+}
+.task-form input[type="text"] { flex: 1 1 auto; min-width: 160px; }
+.task-form .task-form-controls { display:flex; gap:10px; align-items:center; }
+
+/* Task list container spacing */
+.task-list {
+  padding: 10px;
+  margin-top: 12px;
+}
+.task-list li {
+  padding: 14px 18px;
+  margin: 12px 0;
+  align-items: center;
+}
+
+/* Buttons consistent size */
+.actions .btn, .actions .btn-danger {
+  min-width: 88px;
+  padding: 10px 12px;
+}
+
+/* Progress bar label positioning: keep text inside bar left aligned */
+.progress .progress-text {
+  padding-left: 10px;
+  font-size: 12px;
+  color: #001014;
+  font-weight:700;
+}
+
+/* subtle improvement: separate progress card from stats card visually */
+.card.section + .card.section {
+  margin-top: 10px;
+}
+
+/* final touch: reduce overly large radii on stat cards on small screens */
+@media (max-width: 480px) {
+  .card { border-radius: 12px; }
+  .stat-card { border-radius: 10px; padding: 14px; }
+}
